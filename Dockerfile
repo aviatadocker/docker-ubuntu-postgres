@@ -9,14 +9,13 @@ RUN date -u +"%Y-%m-%d %H:%M%S?" && apt-get update \
 
 # Configure
 # this sets postgres to put it's data in the /postgred directory which is exported
-RUN date -u +"%Y-%m-%d %H:%M%S?" && mkdir /postgres \
- && date -u +"%Y-%m-%d %H:%M%S?" && chown postgres /postgres \
- && date -u +"%Y-%m-%d %H:%M%S?" && sed -i -e 's:/var/lib/postgresql/[^/]*/main:/postgres:' \
- && date -u +"%Y-%m-%d %H:%M%S?" && /etc/init.d/postgresql stop \
+RUN date -u +"%Y-%m-%d %H:%M%S?" && /etc/init.d/postgresql stop \
+ && date -u +"%Y-%m-%d %H:%M%S?" && mv /var/lib/postgresql /postgresql \
+ && date -u +"%Y-%m-%d %H:%M%S?" && sed -i /etc/postgresql/*/main/postgresql.conf -e 's:/var/lib/postgresql\(/[^/]*/main\):/postgresql\1:' \
  && date -u +"%Y-%m-%d %H:%M%S?" && /etc/init.d/postgresql start \
  && date -u +"%Y-%m-%d %H:%M%S?" && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 
-VOLUME ["/postgres"]
+VOLUME ["/postgresql"]
 
 EXPOSE 5432
 
