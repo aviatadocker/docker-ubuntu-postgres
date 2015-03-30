@@ -8,14 +8,8 @@ RUN date -u +"%Y-%m-%d %H:%M%S?" && apt-get update \
  && date -u +"%Y-%m-%d %H:%M%S?" && apt-get install -y postgresql-client
 
 # Configure
-# this sets postgres to put it's data in the /postgred directory which is exported
-RUN date -u +"%Y-%m-%d %H:%M%S?" && /etc/init.d/postgresql stop \
- && date -u +"%Y-%m-%d %H:%M%S?" && mv /var/lib/postgresql /postgresql \
- && date -u +"%Y-%m-%d %H:%M%S?" && sed -i /etc/postgresql/*/main/postgresql.conf -e 's:/var/lib/postgresql\(/[^/]*/main\):/postgresql\1:' \
- && date -u +"%Y-%m-%d %H:%M%S?" && /etc/init.d/postgresql start \
- && date -u +"%Y-%m-%d %H:%M%S?" && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres'"
-
-VOLUME ["/postgresql"]
+# set a default password for the postgres user
+RUN date -u +"%Y-%m-%d %H:%M%S?" && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 
 EXPOSE 5432
 
