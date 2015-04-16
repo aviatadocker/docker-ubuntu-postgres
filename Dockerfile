@@ -8,8 +8,8 @@ RUN date -u +"%Y-%m-%d %H:%M%S?" && apt-get update \
  && date -u +"%Y-%m-%d %H:%M%S?" && apt-get install -y postgresql-client
 
 # Configure
-# set a default password for the postgres user
-RUN date -u +"%Y-%m-%d %H:%M%S?" && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres'"
+# allow local authentication for the postgres user
+RUN date -u +"%Y-%m-%d %H:%M%S?" && sed -i -e 's/posgres *peer/postgres trust/g' /etc/postgresql/9.3/main/pg_hba.conf
 
 EXPOSE 5432
 
