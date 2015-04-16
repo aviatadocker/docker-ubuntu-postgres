@@ -9,7 +9,7 @@ RUN date -u +"%Y-%m-%d %H:%M%S?" && apt-get update \
 
 # Configure
 # allow local authentication for the postgres user
-RUN date -u +"%Y-%m-%d %H:%M%S?" && sed -i -e 's/posgres *peer/postgres trust/g' /etc/postgresql/9.3/main/pg_hba.conf
+RUN date -u +"%Y-%m-%d %H:%M%S?" && sed -e 's/postgres *peer/postgres                                trust/g' /etc/postgresql/9.3/main/pg_hba.conf
 
 EXPOSE 5432
 
